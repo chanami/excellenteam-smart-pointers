@@ -7,19 +7,20 @@ class UniquePtr
 {
 public:
     explicit UniquePtr( T* ptr);
-    UniquePtr() { throw std::invalid_argument("error null pointer"); };
+    //UniquePtr() { throw std::invalid_argument("error null pointer"); };
     ~UniquePtr() { delete(m_ptr); };
 
+    T& operator=(T*);
     T* operator->() const;
-    T& operator*()  const;
-    operator bool();
+    T& operator*() const;
+    operator bool() const;
     T* get() const;
 
 private:
     // Prevent coping
     UniquePtr(UniquePtr const&);
     UniquePtr& operator=(UniquePtr const&);
-    UniquePtr& operator=(T*);
+
 
     T*   m_ptr;
 };
@@ -41,7 +42,8 @@ template <typename T>
 T * UniquePtr<T>:: get() const { return m_ptr; }
 
 template<typename T>
-UniquePtr<T>::operator bool(){
+UniquePtr<T>::operator bool()const
+{
     return dynamic_cast<T *>(get()) != NULL;
 }
 #endif //EXCELLENTEAM_ELLA_CPP_SMART_POINTERS_CHANAMI_SMART_POINTER_H
