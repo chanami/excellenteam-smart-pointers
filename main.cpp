@@ -2,29 +2,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include "smart_pointer.h"
-
-class Person {
-public:
-
-    Person(){};
-    Person(const char *);
-    ~Person() { std::cout << "Person::~Person()\n"; };
-
-    const char* get_name()const;
-
-private:
-    char full_name[32];
-};
-
-Person::Person(const char * full_name)
-{
-    strcpy(Person::full_name,full_name);
-}
-
-const char* Person::get_name() const
-{
-    return full_name;
-}
+#include "person.h"
 
 
 void test_arrow(){
