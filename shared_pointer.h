@@ -70,9 +70,6 @@ shared_ptr<T>::shared_ptr(const shared_ptr &ptr) : refCount(ptr.refCount), m_ptr
 template<typename T>
 shared_ptr<T>& shared_ptr<T>:: operator =(const shared_ptr &ptr)
 {
-//    shared_ptr  temp(ptr);
-//    temp.swap(*this);
-//    return *this;
     //for ctor
     shared_ptr<T> temp(ptr);
 

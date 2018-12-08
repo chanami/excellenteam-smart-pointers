@@ -41,17 +41,6 @@ void test_star(){
     }
 }
 
-void test_shared_point_star(){
-    std::cout << "Test shared pointer"<<std::endl;
-    shared_ptr<Person> p(new Person("Shlomit"));
-    if (p)
-    {
-        if(strcmp((*p).get_name(), "Shlomit") == 0)
-            std::cout << "Test Star Ok"<<std::endl;
-        else
-            std::cout << "Test star FAILED"<<std::endl;
-    }
-}
 void test_shared_point_arrow(){
 
     std::cout << "Test shared pointer Arrow"<<std::endl;
