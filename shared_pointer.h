@@ -7,7 +7,7 @@ class shared_ptr
 {
 public :
 
-    shared_ptr(T *ptr=NULL);
+    explicit shared_ptr(T *ptr=NULL);
     ~shared_ptr();
     shared_ptr(const shared_ptr &ptr);
 
@@ -18,14 +18,14 @@ public :
     T* get() const;
 
     operator bool() const;
-    bool operator!=(const shared_ptr& other) const;
-    bool operator==(const shared_ptr& other) const;
+    bool operator!=(shared_ptr& other) const;
+    bool operator==(shared_ptr& other) const;
 
     T* operator ->() const;
     T& operator *() const;
 
 private :
-    size_t *refCount;
+    int *refCount;
     T* m_ptr;
 };
 
@@ -33,7 +33,10 @@ template<typename T>
 shared_ptr<T>::shared_ptr(T *ptr) :  m_ptr(ptr)
 {
     if(ptr)
+    {
         refCount = new int[1];
+        *refCount=1;
+    }
     else
         refCount = NULL;
 }
@@ -67,8 +70,19 @@ shared_ptr<T>::shared_ptr(const shared_ptr &ptr) : refCount(ptr.refCount), m_ptr
 template<typename T>
 shared_ptr<T>& shared_ptr<T>:: operator =(const shared_ptr &ptr)
 {
-    shared_ptr  temp(ptr);
-    temp.swap(*this);
+//    shared_ptr  temp(ptr);
+//    temp.swap(*this);
+//    return *this;
+    //for ctor
+    shared_ptr<T> temp(ptr);
+
+    //for dtor
+    temp.refCount = refCount;
+    temp.m_ptr = m_ptr;
+
+    m_ptr = ptr.m_ptr;
+    refCount = ptr.refCount;
+
     return *this;
 }
 
@@ -82,7 +96,7 @@ template<typename T>
 int shared_ptr<T>:: getCount() const
 {
     if(refCount != NULL)
-        return (*refCount);
+        return *refCount;
     else
         return 0;
 }
@@ -100,19 +114,24 @@ T& shared_ptr<T>::operator *()const
 }
 
 template<typename T>
-bool shared_ptr<T>::operator==(const shared_ptr& other) const
+bool shared_ptr<T>::operator==(shared_ptr& other) const
  {
-     return (m_ptr==other.m_ptr)&&(getCount()==other.getCount());
+     return (m_ptr==other.m_ptr)&&(refCount==other.refCount);
  }
 
 template<typename T>
-bool shared_ptr<T>:: operator!=(const shared_ptr& other) const
+bool shared_ptr<T>:: operator!=(shared_ptr& other) const
 {
-    return !(this==other);
+    return (m_ptr != other.m_ptr);
+//    std::cout<<"here"<<std::endl;
+//    return (m_ptr!=other.m_ptr)||(refCount!=other.refCount);
 }
 
 template<typename T>
-T * shared_ptr<T>:: get() const { return m_ptr; }
+T * shared_ptr<T>:: get() const
+{
+    return m_ptr;
+}
 
 template<typename T>
 shared_ptr<T>::operator bool()const
