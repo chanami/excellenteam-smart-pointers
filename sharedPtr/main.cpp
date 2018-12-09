@@ -49,11 +49,12 @@ void test_shared_ptr_equals_and_copy_ctor(){
 }
 void test_shared_ptr_not_equals(){
     shared_ptr<Person> p2(new Person("Shlom8"));
-    shared_ptr<Person> p4(p2);
-    if (p2!=p2)
-            std::cout << "Test shared pointer not equals FAILED"<<std::endl;
-    else
+    shared_ptr<Person> p4(new Person("chaim"));
+    if (p2!=p4)
         std::cout << "Test shared pointer not equals ok "<<std::endl;
+    else
+        std::cout << "Test shared pointer not equals FAILED"<<std::endl;
+
 }
 void test_assignment_opr()
 {
@@ -61,9 +62,9 @@ void test_assignment_opr()
     shared_ptr<Person> p4;
     p4=p2;
     if (p2==p4)
-        std::cout << "Test shared pointer not equals ok"<<std::endl;
+        std::cout << "Test shared pointer assignment ok"<<std::endl;
     else
-        std::cout << "Test shared pointer not equals failed"<<std::endl;
+        std::cout << "Test shared pointer assignment failed"<<std::endl;
 
 }
 
