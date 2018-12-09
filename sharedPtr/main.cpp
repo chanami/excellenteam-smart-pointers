@@ -70,7 +70,7 @@ void test_assignment_opr()
 
 void test_shared_ptr_dtor()
 {
-    int  counter;
+    size_t  counter;
     shared_ptr<Person> p1(new Person("Shlomit"));
     shared_ptr<Person> p2(p1);
     shared_ptr<Person> p3(p1);
@@ -90,7 +90,7 @@ void test_shared_ptr_dtor()
 
 void test_shared_ptr_assignment()
 {
-    int  counter_1,  counter_2;
+    size_t  counter_1,  counter_2;
 
     shared_ptr<Person> p1(new Person("Shlomit"));
     shared_ptr<Person> p2(new Person("Meir"));
