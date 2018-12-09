@@ -18,8 +18,8 @@ public :
     T* get() const;
 
     operator bool() const;
-    bool operator!=(shared_ptr& other) const;
-    bool operator==(shared_ptr& other) const;
+    bool operator!=(const shared_ptr& other) const;
+    bool operator==(const shared_ptr& other) const;
 
     T* operator ->() const;
     T& operator *() const;
@@ -109,17 +109,15 @@ T& shared_ptr<T>::operator *()const
 }
 
 template<typename T>
-bool shared_ptr<T>::operator==(shared_ptr& other) const
+bool shared_ptr<T>::operator==(const shared_ptr& other) const
  {
      return (m_ptr==other.m_ptr)&&(refCount==other.refCount);
  }
 
 template<typename T>
-bool shared_ptr<T>:: operator!=(shared_ptr& other) const
+bool shared_ptr<T>:: operator!=(const shared_ptr& other) const
 {
     return (m_ptr != other.m_ptr);
-//    std::cout<<"here"<<std::endl;
-//    return (m_ptr!=other.m_ptr)||(refCount!=other.refCount);
 }
 
 template<typename T>
