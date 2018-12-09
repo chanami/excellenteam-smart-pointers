@@ -3,7 +3,6 @@
 #include <cstring>
 #include "smart_pointer.h"
 #include "person.h"
-#include "shared_pointer.h"
 
 
 void test_arrow(){
