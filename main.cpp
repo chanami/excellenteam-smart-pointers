@@ -122,10 +122,12 @@ void test_shared_ptr_dtor()
 
     }
 
-    couner = p3.getCount();
+    counter = p3.getCount();
     if(counter == 3)
-
         std::cout << "dtor is OK" << std::endl;
+    else
+        std::cout << "dtor test FAILED" << std::endl;
+
 }
 
 void test_shared_ptr_assignment()
@@ -143,8 +145,10 @@ void test_shared_ptr_assignment()
     counter_2 = p4.getCount();
 
     if(counter_1 == 3 && counter_2 == 1)
-
         std::cout << "assignment is OK" << std::endl;
+    else
+        std::cout << "assignment FAILED" << std::endl;
+
 }
 
 int main() {
@@ -155,9 +159,10 @@ int main() {
     test_star();
     test_bool();
     test_shared_point_arrow();
-    //test_shared_ptr_equals();
+    test_shared_ptr_equals_and_copy_ctor();
     test_shared_ptr_not_equals();
-    test_assignment_opr();
+    test_shared_ptr_dtor();
+    test_shared_ptr_assignment();
 
     return 0;
 }
