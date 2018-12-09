@@ -8,7 +8,7 @@ public:
 
     Person(){};
     Person(const char *);
-    ~Person() { std::cout << "Person::~Person()\n"; };
+    ~Person() {};
 
     const char* get_name()const;
 
