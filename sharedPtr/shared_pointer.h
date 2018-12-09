@@ -12,7 +12,7 @@ public :
 
     shared_ptr(const shared_ptr &ptr);
     shared_ptr& operator =(const shared_ptr &ptr);
-    //shared_ptr& operator =(T*);
+    shared_ptr& operator =(T*);
 
 
     bool isvalid() const;
@@ -29,27 +29,39 @@ public :
 private :
     size_t *refCount;
     T* m_ptr;
+    void release();
+    void swap(shared_ptr &other);
 
 };
 
 template<typename T>
-shared_ptr<T>::shared_ptr(T *ptr) :m_ptr(ptr)
+shared_ptr<T>::shared_ptr(T *ptr)try :m_ptr(ptr)
 {
     refCount = new size_t(1);
 }
+catch (std::bad_alloc& e)
+{
+    delete ptr;
+    throw ;
+}
 
+template<typename T>
+void shared_ptr<T>::release()
+{
+    if((*refCount) <= 0)
+    {
+        delete refCount;
+        delete m_ptr;
+    }
+
+}
 template<typename T>
 shared_ptr<T>::~shared_ptr()
 {
     if(isvalid())
     {
         --(*refCount);
-        if((*refCount) <= 0)
-        {
-            delete refCount;
-            delete m_ptr;
-        }
-
+        release();
         refCount = NULL;
         m_ptr = NULL;
     }
@@ -59,23 +71,28 @@ template<typename T>
 shared_ptr<T>::shared_ptr(const shared_ptr &ptr) : refCount(ptr.refCount), m_ptr(ptr.m_ptr)
 {
     if(isvalid())
-    {
         (*refCount)++;
-    }
+}
+
+template<typename T>
+void shared_ptr<T>::swap(shared_ptr &other)
+{
+    std::swap(m_ptr,other.m_ptr);
+    std::swap(refCount,other.refCount);
 }
 
 template<typename T>
 shared_ptr<T>& shared_ptr<T>:: operator =(const shared_ptr &ptr)
 {
-    //for ctor
     shared_ptr<T> temp(ptr);
+    swap(temp);
 
-    //for dtor
-    temp.refCount = refCount;
-    temp.m_ptr = m_ptr;
-
-    m_ptr = ptr.m_ptr;
-    refCount = ptr.refCount;
+    return *this;
+}
+template<typename T>
+shared_ptr<T>& shared_ptr<T>:: operator =(T* other)
+{   //TODO release()
+    //TODO try & catch with other
 
     return *this;
 }
