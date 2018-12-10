@@ -16,12 +16,18 @@ public :
 
 
     bool isvalid() const;
-    int getCount() const;
+    int getCount() const;//for testing
     T* get() const;
 
     operator bool() const;
     bool operator!=(const shared_ptr& other) const;
     bool operator==(const shared_ptr& other) const;
+
+    template <class U>
+    shared_ptr(const shared_ptr<U>&pt);
+
+    template <class U>
+    friend class shared_ptr;
 
     T* operator ->() const;
     T& operator *() const;
@@ -29,6 +35,7 @@ public :
 private :
     size_t *refCount;
     T* m_ptr;
+
     void release();
     void swap(shared_ptr &other);
 
@@ -89,6 +96,7 @@ shared_ptr<T>& shared_ptr<T>:: operator =(const shared_ptr &ptr)
 
     return *this;
 }
+
 template<typename T>
 shared_ptr<T>& shared_ptr<T>:: operator =(T* other)
 {   //TODO release()
@@ -146,5 +154,15 @@ template<typename T>
 shared_ptr<T>::operator bool()const
 {
     return dynamic_cast<T *>(get()) != NULL;
+}
+
+template<typename T>
+template<typename U>
+shared_ptr<T>::shared_ptr(const shared_ptr<U>& ptr)
+        :refCount(ptr.refCount),
+         m_ptr(ptr.m_ptr)
+{
+    if(isvalid())
+        (*refCount)++;
 }
 #endif //EXCELLENTEAM_ELLA_CPP_SMART_POINTERS_CHANAMI_SHARED_POINTER_H
